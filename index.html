@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Weekend Ray Tracer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #controls {
+      margin: 1rem;
+      display: flex;
+      gap: 2rem;
+    }
+    canvas {
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simple Weekend Ray Tracer</h1>
+  <div id="controls">
+    <div>
+      <label for="camX">Camera X: <span id="camXVal">0</span></label><br />
+      <input type="range" id="camX" min="-5" max="5" step="0.1" value="0" />
+    </div>
+    <div>
+      <label for="camY">Camera Y: <span id="camYVal">1</span></label><br />
+      <input type="range" id="camY" min="0" max="5" step="0.1" value="1" />
+    </div>
+    <div>
+      <label for="camZ">Camera Z: <span id="camZVal">5</span></label><br />
+      <input type="range" id="camZ" min="1" max="10" step="0.1" value="5" />
+    </div>
+    <button id="renderBtn">Render</button>
+  </div>
+  <canvas id="canvas" width="400" height="225"></canvas>
+
+  <script src="raytracer.js"></script>
+</body>
+</html>
