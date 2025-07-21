@@ -260,7 +260,7 @@ function rayColor(ray, world, depth) {
   }
   const unitDir = ray.direction.unit();
   const t = 0.5 * (unitDir.y + 1.0);
-  return new Vec3(1.0, 1.0, 1.0).mul(1.0 - t).add(new Vec3(0.5, 0.7, 1.0).mul(t));
+  return new Vec3(1.0, 1.0, 1.0).mul(1.0 - t).add(new Vec3(0.7, 0.8, 1.0).mul(t));
 }
 
 function randomScene() {
@@ -312,8 +312,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const height = canvas.height;
   const aspectRatio = width / height;
 
-  const samplesPerPixel = 10; // Adjust for speed/quality
-  const maxDepth = 5;
+  const samplesPerPixel = 500; // High-quality render (noise reduction)
+  const maxDepth = 10; // Allow deeper light bounces
 
   const world = randomScene();
 
@@ -324,6 +324,10 @@ window.addEventListener('DOMContentLoaded', () => {
   const camYVal = document.getElementById('camYVal');
   const camZVal = document.getElementById('camZVal');
   const renderBtn = document.getElementById('renderBtn');
+  const ppmBtn = document.getElementById('ppmBtn');
+
+  // Store the latest rendered image for export
+  let lastImageData = null;
 
   function updateLabels() {
     camXVal.textContent = camXInput.value;
@@ -378,6 +382,9 @@ window.addEventListener('DOMContentLoaded', () => {
       ctx.putImageData(imageData, 0, 0);
       if (currentRow < height) {
         setTimeout(loop, 0);
+      } else {
+        // Save final frame so user can export to PPM later
+        lastImageData = imageData;
       }
     }
     loop();
@@ -391,4 +398,38 @@ window.addEventListener('DOMContentLoaded', () => {
 
   renderBtn.addEventListener('click', render);
   render(); // initial render
+
+  // ----- PPM EXPORT -------------------------------------------------------
+  function createPPM(data) {
+    let header = `P3\n${width} ${height}\n255\n`;
+    let body = '';
+    // Canvas coordinates are top-left origin, but PPM expects bottom-left
+    for (let j = height - 1; j >= 0; --j) {
+      for (let i = 0; i < width; ++i) {
+        const idx = (j * width + i) * 4;
+        const r = data.data[idx];
+        const g = data.data[idx + 1];
+        const b = data.data[idx + 2];
+        body += `${r} ${g} ${b}\n`;
+      }
+    }
+    return header + body;
+  }
+
+  ppmBtn.addEventListener('click', () => {
+    if (!lastImageData) {
+      alert('Render the scene first, then export.');
+      return;
+    }
+    const ppmString = createPPM(lastImageData);
+    const blob = new Blob([ppmString], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'render.ppm';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  });
 });

@@ -28,18 +28,19 @@
   <h1>Simple Weekend Ray Tracer</h1>
   <div id="controls">
     <div>
-      <label for="camX">Camera X: <span id="camXVal">0</span></label><br />
-      <input type="range" id="camX" min="-5" max="5" step="0.1" value="0" />
+      <label for="camX">Camera X: <span id="camXVal">13</span></label><br />
+      <input type="range" id="camX" min="-20" max="20" step="0.1" value="13" />
     </div>
     <div>
-      <label for="camY">Camera Y: <span id="camYVal">1</span></label><br />
-      <input type="range" id="camY" min="0" max="5" step="0.1" value="1" />
+      <label for="camY">Camera Y: <span id="camYVal">2</span></label><br />
+      <input type="range" id="camY" min="-5" max="10" step="0.1" value="2" />
     </div>
     <div>
-      <label for="camZ">Camera Z: <span id="camZVal">5</span></label><br />
-      <input type="range" id="camZ" min="1" max="10" step="0.1" value="5" />
+      <label for="camZ">Camera Z: <span id="camZVal">3</span></label><br />
+      <input type="range" id="camZ" min="-20" max="20" step="0.1" value="3" />
     </div>
     <button id="renderBtn">Render</button>
+    <button id="ppmBtn">Download PPM</button>
   </div>
   <canvas id="canvas" width="400" height="225"></canvas>
 
