@@ -312,7 +312,12 @@ window.addEventListener('DOMContentLoaded', () => {
   const height = canvas.height;
   const aspectRatio = width / height;
 
-  const samplesPerPixel = 500; // High-quality render (noise reduction)
+  // Samples-per-pixel slider elements (added in HTML)
+  const sppInput = document.getElementById('spp');
+  const sppVal = document.getElementById('sppVal');
+
+  // Default value comes from the input element
+  let samplesPerPixel = parseInt(sppInput.value, 10);
   const maxDepth = 10; // Allow deeper light bounces
 
   const world = randomScene();
@@ -333,8 +338,10 @@ window.addEventListener('DOMContentLoaded', () => {
     camXVal.textContent = camXInput.value;
     camYVal.textContent = camYInput.value;
     camZVal.textContent = camZInput.value;
+    sppVal.textContent = sppInput.value;
+    samplesPerPixel = parseInt(sppInput.value, 10);
   }
-  [camXInput, camYInput, camZInput].forEach((inp) => inp.addEventListener('input', updateLabels));
+  [camXInput, camYInput, camZInput, sppInput].forEach((inp) => inp.addEventListener('input', updateLabels));
   updateLabels();
 
   function getCamera() {
